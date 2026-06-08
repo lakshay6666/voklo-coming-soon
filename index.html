@@ -18,6 +18,7 @@
       --subtle: rgba(241, 239, 231, 0.12);
       --accent: #de9e5d;
       --accent-hover: #edb373;
+      --smooth: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * {
@@ -31,6 +32,7 @@
     }
 
     body {
+      position: relative;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -43,8 +45,19 @@
       overflow-x: hidden;
     }
 
+    .interactive-sparks {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.78;
+    }
+
     .page {
       position: relative;
+      z-index: 1;
       width: min(100%, 860px);
       display: flex;
       flex-direction: column;
@@ -58,7 +71,8 @@
       width: min(200px, 54vw);
       height: auto;
       display: block;
-      animation: fade-up 720ms ease both;
+      animation: reveal-up 980ms var(--smooth) both;
+      animation-delay: 80ms;
     }
 
     .hero {
@@ -82,12 +96,13 @@
       filter: blur(42px);
       transform: translate(-50%, -50%);
       pointer-events: none;
+      animation: glow-in 1600ms var(--smooth) both;
     }
 
     .status,
     .eyebrow {
-      animation: fade-up 720ms ease both;
-      animation-delay: 120ms;
+      animation: reveal-up 980ms var(--smooth) both;
+      animation-delay: 260ms;
     }
 
     .status {
@@ -143,8 +158,8 @@
       line-height: 0.98;
       font-weight: 700;
       letter-spacing: 0;
-      animation: fade-up 780ms ease both;
-      animation-delay: 220ms;
+      animation: reveal-up 1100ms var(--smooth) both;
+      animation-delay: 420ms;
     }
 
     .subheadline {
@@ -154,8 +169,8 @@
       font-size: clamp(1rem, 2.4vw, 1.22rem);
       line-height: 1.65;
       font-weight: 400;
-      animation: fade-up 780ms ease both;
-      animation-delay: 320ms;
+      animation: reveal-up 1100ms var(--smooth) both;
+      animation-delay: 560ms;
     }
 
     .sr-only {
@@ -178,8 +193,8 @@
       justify-content: center;
       gap: 14px;
       margin-top: 6px;
-      animation: fade-up 780ms ease both;
-      animation-delay: 430ms;
+      animation: reveal-up 1120ms var(--smooth) both;
+      animation-delay: 720ms;
     }
 
     .cta {
@@ -200,7 +215,7 @@
       text-decoration: none;
       cursor: pointer;
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2), 0 0 0 rgba(222, 158, 93, 0);
-      transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+      transition: transform 220ms var(--smooth), background-color 220ms ease, box-shadow 220ms ease;
     }
 
     .cta:hover,
@@ -228,7 +243,7 @@
       border-radius: 999px;
       background: rgba(241, 239, 231, 0.04);
       overflow: hidden;
-      transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+      transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms var(--smooth);
     }
 
     .waitlist:hover,
@@ -269,7 +284,7 @@
       font-size: 0.94rem;
       font-weight: 800;
       padding: 0 20px;
-      transition: background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+      transition: background-color 220ms ease, color 220ms ease, box-shadow 220ms ease;
     }
 
     .waitlist button:hover,
@@ -291,8 +306,8 @@
       align-items: center;
       gap: 18px;
       margin-top: 2px;
-      animation: fade-up 800ms ease both;
-      animation-delay: 560ms;
+      animation: reveal-up 1120ms var(--smooth) both;
+      animation-delay: 900ms;
     }
 
     .team-title {
@@ -323,7 +338,7 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
-      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease;
+      transition: transform 260ms var(--smooth), border-color 260ms ease, box-shadow 260ms ease, background-color 260ms ease;
     }
 
     .member:hover {
@@ -338,8 +353,59 @@
       height: 54px;
       border: 1px solid rgba(222, 158, 93, 0.45);
       border-radius: 50%;
+      display: grid;
+      place-items: center;
       background:
         radial-gradient(circle at 34% 28%, rgba(222, 158, 93, 0.34), transparent 36%),
+        rgba(241, 239, 231, 0.08);
+      color: var(--text);
+      font-size: 0.78rem;
+      font-weight: 850;
+      line-height: 1;
+      overflow: hidden;
+      position: relative;
+      text-transform: uppercase;
+    }
+
+    .avatar::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      background: rgba(30, 28, 27, 0.28);
+      filter: blur(4px);
+    }
+
+    .avatar span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .member:nth-child(1) .avatar {
+      background:
+        radial-gradient(circle at 35% 28%, rgba(241, 239, 231, 0.32), transparent 24%),
+        radial-gradient(circle at 66% 72%, rgba(222, 158, 93, 0.44), transparent 34%),
+        rgba(241, 239, 231, 0.08);
+    }
+
+    .member:nth-child(2) .avatar {
+      background:
+        radial-gradient(circle at 64% 25%, rgba(222, 158, 93, 0.48), transparent 28%),
+        radial-gradient(circle at 28% 72%, rgba(241, 239, 231, 0.24), transparent 32%),
+        rgba(241, 239, 231, 0.08);
+    }
+
+    .member:nth-child(3) .avatar {
+      background:
+        radial-gradient(circle at 30% 65%, rgba(222, 158, 93, 0.5), transparent 31%),
+        radial-gradient(circle at 72% 30%, rgba(241, 239, 231, 0.22), transparent 28%),
+        rgba(241, 239, 231, 0.08);
+    }
+
+    .member:nth-child(4) .avatar {
+      background:
+        radial-gradient(circle at 62% 62%, rgba(241, 239, 231, 0.26), transparent 28%),
+        radial-gradient(circle at 32% 28%, rgba(222, 158, 93, 0.46), transparent 34%),
         rgba(241, 239, 231, 0.08);
     }
 
@@ -360,29 +426,49 @@
     }
 
     footer {
+      position: relative;
+      z-index: 1;
       flex-shrink: 0;
       width: 100%;
       margin-top: 26px;
       color: rgba(241, 239, 231, 0.52);
       font-size: 0.86rem;
       line-height: 1.4;
-      animation: fade-up 800ms ease both;
-      animation-delay: 680ms;
+      animation: reveal-up 1120ms var(--smooth) both;
+      animation-delay: 1040ms;
     }
 
-    @keyframes fade-up {
+    @keyframes reveal-up {
       from {
         opacity: 0;
-        transform: translateY(16px);
+        filter: blur(10px);
+        transform: translateY(22px) scale(0.985);
       }
 
       to {
         opacity: 1;
+        filter: blur(0);
         transform: translateY(0);
       }
     }
 
+    @keyframes glow-in {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -46%) scale(0.82);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
+      .interactive-sparks {
+        display: none;
+      }
+
       *,
       *::before,
       *::after {
@@ -496,6 +582,8 @@
   </style>
 </head>
 <body>
+  <canvas class="interactive-sparks" aria-hidden="true"></canvas>
+
   <main class="page" aria-labelledby="hero-title">
     <img class="logo" src="logo-text.png" alt="VOKLO">
 
@@ -506,7 +594,7 @@
       </div>
       <p class="eyebrow">Currently in Development</p>
       <h1 id="hero-title">Building the smartest new platform for India.</h1>
-      <p class="subheadline">Four friends. Three time zones. One mission. Follow our raw, unfiltered journey from Europe to India as we build VOKLO from scratch.</p>
+      <p class="subheadline">Four friends. Two time zones. One mission. Follow our raw, unfiltered journey from Europe to India as we build VOKLO from scratch.</p>
       <div class="actions">
         <a class="cta" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Follow VOKLO on Instagram">
           <i class="fa-brands fa-instagram" aria-hidden="true"></i>
@@ -525,28 +613,28 @@
       <h2 class="team-title" id="team-title">Cast of Characters</h2>
       <div class="team-grid">
         <article class="member">
-          <div class="avatar" aria-hidden="true"></div>
+          <div class="avatar" aria-hidden="true"><span>TS</span></div>
           <h3 class="member-name">Tanushree</h3>
           <p class="member-role">The Lead Architect</p>
           <p class="member-location">🇮🇳 India</p>
         </article>
 
         <article class="member">
-          <div class="avatar" aria-hidden="true"></div>
+          <div class="avatar" aria-hidden="true"><span>LS</span></div>
           <h3 class="member-name">Lakshay</h3>
           <p class="member-role">The Visionary</p>
           <p class="member-location">🇩🇪 Germany</p>
         </article>
 
         <article class="member">
-          <div class="avatar" aria-hidden="true"></div>
+          <div class="avatar" aria-hidden="true"><span>SH</span></div>
           <h3 class="member-name">Shivani</h3>
           <p class="member-role">The Pixel Perfectionist</p>
           <p class="member-location">🇮🇹 Italy</p>
         </article>
 
         <article class="member">
-          <div class="avatar" aria-hidden="true"></div>
+          <div class="avatar" aria-hidden="true"><span>JH</span></div>
           <h3 class="member-name">Jishant</h3>
           <p class="member-role">The Socials &amp; Hype Lead</p>
           <p class="member-location">🇨🇭 Switzerland</p>
@@ -556,5 +644,164 @@
   </main>
 
   <footer>&copy; 2026 VOKLO. All rights reserved.</footer>
+
+  <script>
+    (() => {
+      const canvas = document.querySelector(".interactive-sparks");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      if (!canvas || reduceMotion.matches) {
+        return;
+      }
+
+      const ctx = canvas.getContext("2d");
+      const pointer = { x: 0, y: 0, active: false };
+      const particles = [];
+      let width = 0;
+      let height = 0;
+      let pixelRatio = 1;
+      let animationFrame = 0;
+
+      const random = (min, max) => Math.random() * (max - min) + min;
+
+      const createParticle = (x = random(0, width), y = random(0, height), burst = false) => ({
+        x,
+        y,
+        baseX: x,
+        baseY: y,
+        vx: burst ? random(-1.8, 1.8) : random(-0.08, 0.08),
+        vy: burst ? random(-1.8, 1.8) : random(-0.08, 0.08),
+        size: burst ? random(1.8, 3.2) : random(1.1, 2.4),
+        life: burst ? 90 : Infinity,
+        twinkle: random(0, Math.PI * 2),
+      });
+
+      const resize = () => {
+        pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = Math.floor(width * pixelRatio);
+        canvas.height = Math.floor(height * pixelRatio);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+        const targetCount = Math.min(54, Math.max(28, Math.floor(width / 28)));
+        particles.length = 0;
+
+        for (let i = 0; i < targetCount; i += 1) {
+          particles.push(createParticle());
+        }
+      };
+
+      const setPointer = (event) => {
+        const point = event.touches ? event.touches[0] : event;
+        pointer.x = point.clientX;
+        pointer.y = point.clientY;
+        pointer.active = true;
+      };
+
+      const addBurst = (event) => {
+        setPointer(event);
+
+        for (let i = 0; i < 10; i += 1) {
+          particles.push(createParticle(pointer.x, pointer.y, true));
+        }
+      };
+
+      const drawLine = (a, b, opacity) => {
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = `rgba(222, 158, 93, ${opacity})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      };
+
+      const tick = () => {
+        ctx.clearRect(0, 0, width, height);
+
+        particles.forEach((particle, index) => {
+          particle.twinkle += 0.025;
+
+          if (Number.isFinite(particle.life)) {
+            particle.life -= 1;
+          }
+
+          const dx = pointer.x - particle.x;
+          const dy = pointer.y - particle.y;
+          const distance = Math.hypot(dx, dy);
+
+          if (pointer.active && distance < 170) {
+            const force = (170 - distance) / 170;
+            particle.vx -= (dx / Math.max(distance, 1)) * force * 0.11;
+            particle.vy -= (dy / Math.max(distance, 1)) * force * 0.11;
+          }
+
+          particle.vx += (particle.baseX - particle.x) * 0.0009;
+          particle.vy += (particle.baseY - particle.y) * 0.0009;
+          particle.vx *= 0.96;
+          particle.vy *= 0.96;
+          particle.x += particle.vx;
+          particle.y += particle.vy;
+
+          if (particle.x < -20 || particle.x > width + 20 || particle.y < -20 || particle.y > height + 20 || particle.life <= 0) {
+            particles.splice(index, 1);
+            return;
+          }
+
+          const glow = 0.34 + Math.sin(particle.twinkle) * 0.18;
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(241, 239, 231, ${glow})`;
+          ctx.fill();
+        });
+
+        for (let i = 0; i < particles.length; i += 1) {
+          for (let j = i + 1; j < particles.length; j += 1) {
+            const a = particles[i];
+            const b = particles[j];
+            const distance = Math.hypot(a.x - b.x, a.y - b.y);
+
+            if (distance < 105) {
+              drawLine(a, b, ((105 - distance) / 105) * 0.085);
+            }
+          }
+        }
+
+        if (pointer.active) {
+          particles.forEach((particle) => {
+            const distance = Math.hypot(pointer.x - particle.x, pointer.y - particle.y);
+
+            if (distance < 150) {
+              drawLine(pointer, particle, ((150 - distance) / 150) * 0.16);
+            }
+          });
+        }
+
+        while (particles.length < Math.min(54, Math.max(28, Math.floor(width / 28)))) {
+          particles.push(createParticle());
+        }
+
+        animationFrame = requestAnimationFrame(tick);
+      };
+
+      resize();
+      tick();
+
+      window.addEventListener("resize", resize);
+      window.addEventListener("pointermove", setPointer, { passive: true });
+      window.addEventListener("pointerleave", () => {
+        pointer.active = false;
+      });
+      window.addEventListener("click", addBurst);
+      window.addEventListener("touchstart", addBurst, { passive: true });
+
+      reduceMotion.addEventListener("change", () => {
+        cancelAnimationFrame(animationFrame);
+        ctx.clearRect(0, 0, width, height);
+      });
+    })();
+  </script>
 </body>
 </html>
